@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Modelo.Models.Preregistros>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PreregIdentificacion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PreregNombres)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PreregApellidos)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PreregEmail)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PreregTematica)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PreregAreaProfesional)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PreregFechaCreacion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PreregFechaModificacion)
+                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cv)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estpr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipopr)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreregIdentificacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreregNombres)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreregApellidos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreregEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreregTematica)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreregAreaProfesional)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreregFechaCreacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreregFechaModificacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cv.CvId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estpr.EstprNombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipopr.TipoprNombre)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PreregId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PreregId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PreregId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

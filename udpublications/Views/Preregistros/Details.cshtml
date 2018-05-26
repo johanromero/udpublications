@@ -1,0 +1,84 @@
+﻿@model Modelo.Models.Preregistros
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Preregistros</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PreregIdentificacion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PreregIdentificacion)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PreregNombres)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PreregNombres)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PreregApellidos)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PreregApellidos)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PreregEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PreregEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PreregTematica)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PreregTematica)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PreregAreaProfesional)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PreregAreaProfesional)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PreregFechaCreacion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PreregFechaCreacion)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PreregFechaModificacion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PreregFechaModificacion)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cv)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cv.CvId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Estpr)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Estpr.EstprNombre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Tipopr)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tipopr.TipoprNombre)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PreregId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,15 @@
+C:\devrepos\udpublications\udpublications\bin\Debug\netcoreapp2.0\udpublications.deps.json
+C:\devrepos\udpublications\udpublications\bin\Debug\netcoreapp2.0\udpublications.runtimeconfig.json
+C:\devrepos\udpublications\udpublications\bin\Debug\netcoreapp2.0\udpublications.runtimeconfig.dev.json
+C:\devrepos\udpublications\udpublications\bin\Debug\netcoreapp2.0\udpublications.dll
+C:\devrepos\udpublications\udpublications\bin\Debug\netcoreapp2.0\udpublications.pdb
+C:\devrepos\udpublications\udpublications\bin\Debug\netcoreapp2.0\Modelo.dll
+C:\devrepos\udpublications\udpublications\bin\Debug\netcoreapp2.0\Repositorio.dll
+C:\devrepos\udpublications\udpublications\bin\Debug\netcoreapp2.0\Repositorio.pdb
+C:\devrepos\udpublications\udpublications\bin\Debug\netcoreapp2.0\Modelo.pdb
+C:\devrepos\udpublications\udpublications\obj\Debug\netcoreapp2.0\udpublications.csprojResolveAssemblyReference.cache
+C:\devrepos\udpublications\udpublications\obj\Debug\netcoreapp2.0\udpublications.csproj.CoreCompileInputs.cache
+C:\devrepos\udpublications\udpublications\obj\Debug\netcoreapp2.0\udpublications.AssemblyInfoInputs.cache
+C:\devrepos\udpublications\udpublications\obj\Debug\netcoreapp2.0\udpublications.AssemblyInfo.cs
+C:\devrepos\udpublications\udpublications\obj\Debug\netcoreapp2.0\udpublications.dll
+C:\devrepos\udpublications\udpublications\obj\Debug\netcoreapp2.0\udpublications.pdb
