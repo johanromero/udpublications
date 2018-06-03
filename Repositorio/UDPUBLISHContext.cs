@@ -7,10 +7,9 @@ namespace Repositorio
 {
     public partial class UDPUBLISHContext : DbContext
     {
-        public virtual DbSet<Cv> Cv { get; set; }
         public virtual DbSet<EstadoPrereg> EstadoPrereg { get; set; }
         public virtual DbSet<Evaluacion> Evaluacion { get; set; }
-        public virtual DbSet<Permisos> Permisos { get; set; }
+        //public virtual DbSet<Permisos> Permisos { get; set; }
         public virtual DbSet<Preregistros> Preregistros { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<TipoPreregistro> TipoPreregistro { get; set; }
@@ -23,18 +22,7 @@ namespace Repositorio
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Cv>(entity =>
-            {
-                entity.ToTable("CV");
-
-                entity.Property(e => e.CvId)
-                    .HasColumnName("cv_id")
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.CvAdjunto)
-                    .IsRequired()
-                    .HasColumnName("cv_adjunto");
-            });
+   
 
             modelBuilder.Entity<EstadoPrereg>(entity =>
             {
@@ -49,7 +37,7 @@ namespace Repositorio
                 entity.Property(e => e.EstprNombre)
                     .IsRequired()
                     .HasColumnName("estpr_nombre")
-                    .HasColumnType("char(10)");
+                    .HasColumnType("varchar(100)");
             });
 
             modelBuilder.Entity<Evaluacion>(entity =>
@@ -58,12 +46,14 @@ namespace Repositorio
 
                 entity.ToTable("EVALUACION");
 
-                entity.Property(e => e.EvalId).HasColumnName("eval_id");
+                entity.Property(e => e.EvalId)
+                .HasColumnName("eval_id")
+                .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.EvalObservacion)
                     .IsRequired()
                     .HasColumnName("eval_observacion")
-                    .HasMaxLength(150)
+                    .HasMaxLength(500)
                     .IsUnicode(false);
 
                 entity.Property(e => e.PreregId).HasColumnName("prereg_id");
@@ -83,30 +73,30 @@ namespace Repositorio
                     .HasConstraintName("FK_EVALUACION_USUARIO");
             });
 
-            modelBuilder.Entity<Permisos>(entity =>
-            {
-                entity.HasKey(e => e.PermId);
+            //modelBuilder.Entity<Permisos>(entity =>
+            //{
+            //    entity.HasKey(e => e.PermId);
 
-                entity.ToTable("PERMISOS");
+            //    entity.ToTable("PERMISOS");
 
-                entity.Property(e => e.PermId)
-                    .HasColumnName("perm_id")
-                    .ValueGeneratedNever();
+            //    entity.Property(e => e.PermId)
+            //        .HasColumnName("perm_id")
+            //        .ValueGeneratedOnAdd();
 
-                entity.Property(e => e.PermModulo)
-                    .IsRequired()
-                    .HasColumnName("perm_modulo")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+            //    entity.Property(e => e.PermModulo)
+            //        .IsRequired()
+            //        .HasColumnName("perm_modulo")
+            //        .HasMaxLength(50)
+            //        .IsUnicode(false);
 
-                entity.Property(e => e.RolId).HasColumnName("rol_id");
+            //    entity.Property(e => e.RolId).HasColumnName("rol_id");
 
-                entity.HasOne(d => d.Rol)
-                    .WithMany(p => p.Permisos)
-                    .HasForeignKey(d => d.RolId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PERMISOS_ROLES");
-            });
+            //    entity.HasOne(d => d.Rol)
+            //        .WithMany(p => p.Permisos)
+            //        .HasForeignKey(d => d.RolId)
+            //        .OnDelete(DeleteBehavior.ClientSetNull)
+            //        .HasConstraintName("FK_PERMISOS_ROLES");
+            //});
 
             modelBuilder.Entity<Preregistros>(entity =>
             {
@@ -116,9 +106,7 @@ namespace Repositorio
 
                 entity.Property(e => e.PreregId)
                     .HasColumnName("prereg_id")
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.CvId).HasColumnName("cv_id");
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.EstprId).HasColumnName("estpr_id");
 
@@ -156,7 +144,7 @@ namespace Repositorio
                 entity.Property(e => e.PreregNombres)
                     .IsRequired()
                     .HasColumnName("prereg_nombres")
-                    .HasMaxLength(200)
+                    .HasMaxLength(250)
                     .IsUnicode(false);
 
                 entity.Property(e => e.PreregTematica)
@@ -166,11 +154,9 @@ namespace Repositorio
 
                 entity.Property(e => e.TipoprId).HasColumnName("tipopr_id");
 
-                entity.HasOne(d => d.Cv)
-                    .WithMany(p => p.Preregistros)
-                    .HasForeignKey(d => d.CvId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PREREGISTROS_CV");
+                entity.Property(e => e.PreregAdjunto).HasColumnName("prereg_adjunto");
+
+
 
                 entity.HasOne(d => d.Estpr)
                     .WithMany(p => p.Preregistros)
@@ -197,7 +183,7 @@ namespace Repositorio
                 entity.Property(e => e.RolNombre)
                     .IsRequired()
                     .HasColumnName("rol_nombre")
-                    .HasColumnType("nchar(10)");
+                    .HasColumnType("char(50)");
             });
 
             modelBuilder.Entity<TipoPreregistro>(entity =>
@@ -213,7 +199,7 @@ namespace Repositorio
                 entity.Property(e => e.TipoprNombre)
                     .IsRequired()
                     .HasColumnName("tipopr_nombre")
-                    .HasColumnType("char(15)");
+                    .HasColumnType("char(50)");
             });
 
             modelBuilder.Entity<Usuario>(entity =>
@@ -224,7 +210,7 @@ namespace Repositorio
 
                 entity.Property(e => e.UsrId)
                     .HasColumnName("usr_id")
-                    .ValueGeneratedNever();
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.RolId).HasColumnName("rol_id");
 
@@ -239,7 +225,7 @@ namespace Repositorio
                 entity.Property(e => e.UsrPassword)
                     .IsRequired()
                     .HasColumnName("usr_password")
-                    .HasMaxLength(150)
+                    .HasMaxLength(15)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Rol)

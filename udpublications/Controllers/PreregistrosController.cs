@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +24,7 @@ namespace udpublications.Controllers
         // GET: Preregistros
         public async Task<IActionResult> Index()
         {
-            var uDPUBLISHContext = _context.Preregistros.Include(p => p.Cv).Include(p => p.Estpr).Include(p => p.Tipopr);
+            var uDPUBLISHContext = _context.Preregistros.Include(p => p.Estpr).Include(p => p.Tipopr);
             return View(await uDPUBLISHContext.ToListAsync());
         }
 
@@ -35,7 +37,6 @@ namespace udpublications.Controllers
             }
 
             var preregistros = await _context.Preregistros
-                .Include(p => p.Cv)
                 .Include(p => p.Estpr)
                 .Include(p => p.Tipopr)
                 .SingleOrDefaultAsync(m => m.PreregId == id);
@@ -48,12 +49,26 @@ namespace udpublications.Controllers
         }
 
         // GET: Preregistros/Create
-        public IActionResult Create()
+        public IActionResult Create([FromQuery(Name = "TipoPreRegistro")] string tipoPreregistro)
         {
-            ViewData["CvId"] = new SelectList(_context.Cv, "CvId", "CvId");
+
+           
             ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre");
-            ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre");
-            return View();
+            var qTipoP = _context.TipoPreregistro;
+            var tiposPRERList = new SelectList(qTipoP, "TipoprId", "TipoprNombre");
+            ViewData["TipoprId"] = tiposPRERList;
+            var _Tipopr = qTipoP.Where(x => x.TipoprId == Int32.Parse(tipoPreregistro)).First();
+            var preRegistro = new Preregistros
+            {
+                PreregFechaCreacion = DateTime.Now,
+                PreregFechaModificacion = DateTime.Now,
+                Tipopr = _Tipopr,
+                TipoprId = _Tipopr.TipoprId,
+                EstprId = 1
+            };
+
+
+            return View(preRegistro);
         }
 
         // POST: Preregistros/Create
@@ -61,18 +76,44 @@ namespace udpublications.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PreregId,PreregIdentificacion,PreregNombres,PreregApellidos,PreregEmail,CvId,PreregTematica,PreregAreaProfesional,PreregFechaCreacion,PreregFechaModificacion,TipoprId,EstprId")] Preregistros preregistros)
+        public async Task<IActionResult> Create([FromForm]  Preregistros pregistro, IFormFile formFile)
         {
-            if (ModelState.IsValid)
+            if (formFile == null && pregistro.TipoprId == 2)
             {
-                _context.Add(preregistros);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("formFile", "Por favor adjunte el CV(Hoja de Vida)");
+                return View(pregistro);
             }
-            ViewData["CvId"] = new SelectList(_context.Cv, "CvId", "CvId", preregistros.CvId);
-            ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre", preregistros.EstprId);
-            ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre", preregistros.TipoprId);
-            return View(preregistros);
+
+            if (pregistro.TipoprId == 2)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await formFile.CopyToAsync(memoryStream);
+
+                    pregistro.PreregAdjunto = memoryStream.ToArray();
+             
+                }
+
+
+            }
+
+            pregistro.PreregFechaCreacion = DateTime.Now;
+            pregistro.PreregFechaModificacion = DateTime.Now;
+
+            //if (ModelState.IsValid)
+            //{
+                _context.Add(pregistro);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+            //} else {
+            //   var errors =  ModelState.Values.Where(x => x.Errors.Count >= 1);
+
+            //}
+            //ViewData["CvId"] = new SelectList(_context.Cv, "CvId", "CvId", viewModel.PReg.CvId);
+            //ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre", pregistro.EstprId);
+            //ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre", pregistro.TipoprId);
+
+            //return View(pregistro);
         }
 
         // GET: Preregistros/Edit/5
@@ -88,7 +129,6 @@ namespace udpublications.Controllers
             {
                 return NotFound();
             }
-            ViewData["CvId"] = new SelectList(_context.Cv, "CvId", "CvId", preregistros.CvId);
             ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre", preregistros.EstprId);
             ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre", preregistros.TipoprId);
             return View(preregistros);
@@ -126,7 +166,6 @@ namespace udpublications.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CvId"] = new SelectList(_context.Cv, "CvId", "CvId", preregistros.CvId);
             ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre", preregistros.EstprId);
             ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre", preregistros.TipoprId);
             return View(preregistros);
@@ -141,7 +180,6 @@ namespace udpublications.Controllers
             }
 
             var preregistros = await _context.Preregistros
-                .Include(p => p.Cv)
                 .Include(p => p.Estpr)
                 .Include(p => p.Tipopr)
                 .SingleOrDefaultAsync(m => m.PreregId == id);

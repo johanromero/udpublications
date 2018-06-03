@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.0": {
+      "AlanJuden.MvcReportViewer.NetCore/1.0.10": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.6/AlanJuden.MvcReportViewer.NetCore.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.6/AlanJuden.MvcReportViewer.NetCore.dll": {}
+        }
+      },
       "Libuv/1.10.0": {
         "type": "package",
         "dependencies": {
@@ -5075,6 +5084,21 @@
     }
   },
   "libraries": {
+    "AlanJuden.MvcReportViewer.NetCore/1.0.10": {
+      "sha512": "FhLlvoNDpdR1wzUNRvlXGiODohkEHDZP3nvXdMPJUwMGJeJrM9fec4ZW1JwFI7rtjCS4ahbEITDAxCtUyUzbtQ==",
+      "type": "package",
+      "path": "alanjuden.mvcreportviewer.netcore/1.0.10",
+      "files": [
+        "alanjuden.mvcreportviewer.netcore.1.0.10.nupkg.sha512",
+        "alanjuden.mvcreportviewer.netcore.nuspec",
+        "build.bat",
+        "content/Controllers/ReportController.cs.pp",
+        "content/Views/Report/ReportViewer.cshtml",
+        "content/wwwroot/css/mvcreportviewer-bootstrap.css",
+        "lib/netstandard1.6/AlanJuden.MvcReportViewer.NetCore.deps.json",
+        "lib/netstandard1.6/AlanJuden.MvcReportViewer.NetCore.dll"
+      ]
+    },
     "Libuv/1.10.0": {
       "sha512": "GsCf4q+eyaI49rCPlgYxdxa1SQCysXFFdSJWdstrwxytg4+VPYLYrXD4AT2rjHVJ+UF7SSWX9CapWEYaU4ejVQ==",
       "type": "package",
@@ -13205,6 +13229,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
+      "AlanJuden.MvcReportViewer.NetCore >= 1.0.10",
       "Microsoft.AspNetCore.All >= 2.0.3",
       "Microsoft.EntityFrameworkCore.SqlServer >= 2.0.3",
       "Microsoft.EntityFrameworkCore.Tools >= 2.0.3",
@@ -13262,6 +13287,10 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
+          "AlanJuden.MvcReportViewer.NetCore": {
+            "target": "Package",
+            "version": "[1.0.10, )"
+          },
           "Microsoft.AspNetCore.All": {
             "target": "Package",
             "version": "[2.0.3, )"

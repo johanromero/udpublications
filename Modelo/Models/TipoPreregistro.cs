@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Modelo.Models
 {
@@ -10,6 +12,8 @@ namespace Modelo.Models
             Preregistros = new HashSet<Preregistros>();
         }
 
+      
+        [Key]
         public int TipoprId { get; set; }
         public string TipoprNombre { get; set; }
 

@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "1c95be50f2c79f3dffb2fb3c645e381eb7c76e06"
+    "signature": "1b695553cae06ea1318fd8b660a0cd0d35b2ad6c"
   },
   "compilationOptions": {
     "defines": [
@@ -23,6 +23,7 @@
     ".NETCoreApp,Version=v2.0": {
       "udpublications/1.0.0": {
         "dependencies": {
+          "AlanJuden.MvcReportViewer.NetCore": "1.0.10",
           "Microsoft.AspNetCore.All": "2.0.3",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.0.3",
           "Microsoft.EntityFrameworkCore.Tools": "2.0.3",
@@ -35,6 +36,14 @@
         },
         "compile": {
           "udpublications.dll": {}
+        }
+      },
+      "AlanJuden.MvcReportViewer.NetCore/1.0.10": {
+        "runtime": {
+          "lib/netstandard1.6/AlanJuden.MvcReportViewer.NetCore.dll": {}
+        },
+        "compile": {
+          "lib/netstandard1.6/AlanJuden.MvcReportViewer.NetCore.dll": {}
         }
       },
       "Libuv/1.10.0": {
@@ -4277,6 +4286,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "AlanJuden.MvcReportViewer.NetCore/1.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-FhLlvoNDpdR1wzUNRvlXGiODohkEHDZP3nvXdMPJUwMGJeJrM9fec4ZW1JwFI7rtjCS4ahbEITDAxCtUyUzbtQ==",
+      "path": "alanjuden.mvcreportviewer.netcore/1.0.10",
+      "hashPath": "alanjuden.mvcreportviewer.netcore.1.0.10.nupkg.sha512"
     },
     "Libuv/1.10.0": {
       "type": "package",

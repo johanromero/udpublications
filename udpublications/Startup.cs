@@ -24,7 +24,7 @@ namespace udpublications
         {
             services.AddMvc();
 
-            var connection = @"Server=COBOGPGP2280\SQLEXPRESS;Database=UDPUBLISH;Trusted_Connection=True;ConnectRetryCount=0";
+            var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<UDPUBLISHContext>(options => options.UseSqlServer(connection));
         }
 

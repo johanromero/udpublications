@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Modelo.Models.Preregistros>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "PREREGISTRO";
 }
 
-<h2>Index</h2>
+<h2>PRE-REGISTRO</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Ingresar un pre-registro</a>
 </p>
 <table class="table">
     <thead>
@@ -36,9 +36,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.PreregFechaModificacion)
                 </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Cv)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Estpr)
             </th>
@@ -75,9 +75,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PreregFechaModificacion)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Cv.CvId)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Estpr.EstprNombre)
             </td>
@@ -85,9 +85,9 @@
                 @Html.DisplayFor(modelItem => item.Tipopr.TipoprNombre)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PreregId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PreregId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PreregId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.PreregId">Evaluar</a> |
+                <a asp-action="Details" asp-route-id="@item.PreregId">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.PreregId">Eliminar</a>
             </td>
         </tr>
 }

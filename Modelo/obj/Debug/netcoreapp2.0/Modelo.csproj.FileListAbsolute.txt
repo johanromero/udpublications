@@ -1,9 +1,11 @@
 C:\devrepos\udpublications\Modelo\bin\Debug\netcoreapp2.0\Modelo.deps.json
 C:\devrepos\udpublications\Modelo\bin\Debug\netcoreapp2.0\Modelo.dll
 C:\devrepos\udpublications\Modelo\bin\Debug\netcoreapp2.0\Modelo.pdb
+C:\devrepos\udpublications\Modelo\bin\Debug\netcoreapp2.0\Microsoft.AspNetCore.Http.Features.dll
+C:\devrepos\udpublications\Modelo\bin\Debug\netcoreapp2.0\Microsoft.AspNetCore.Http.Features.xml
+C:\devrepos\udpublications\Modelo\obj\Debug\netcoreapp2.0\Modelo.csprojResolveAssemblyReference.cache
 C:\devrepos\udpublications\Modelo\obj\Debug\netcoreapp2.0\Modelo.csproj.CoreCompileInputs.cache
 C:\devrepos\udpublications\Modelo\obj\Debug\netcoreapp2.0\Modelo.AssemblyInfoInputs.cache
 C:\devrepos\udpublications\Modelo\obj\Debug\netcoreapp2.0\Modelo.AssemblyInfo.cs
 C:\devrepos\udpublications\Modelo\obj\Debug\netcoreapp2.0\Modelo.dll
 C:\devrepos\udpublications\Modelo\obj\Debug\netcoreapp2.0\Modelo.pdb
-C:\devrepos\udpublications\Modelo\obj\Debug\netcoreapp2.0\Modelo.csprojResolveAssemblyReference.cache
