@@ -46,7 +46,7 @@
     </div>*@
             <div class="form-group">
                 <label asp-for="PreregAdjunto" class="control-label"></label>
-                <input type="file" name="formFile" id="formFile" class="form-control" />
+                <input type="file" name="formFile" id="formFile" class="form-control" accept="application/pdf" />
                 <span asp-validation-for="PreregAdjunto" class="text-danger"></span>
 
             </div>
@@ -81,12 +81,11 @@
                 <select asp-for="EstprId" class="form-control" asp-items="ViewBag.EstprId" disabled></select>
             </div>
 
-            @if (Model.EstprId == 1)
-             {
+          
                     <div class="form-group">
                         <input type="submit" value="Crear" class="btn btn-default" />
                     </div>
-            }
+            
 
 
         </form>

@@ -36,20 +36,42 @@ namespace udpublications.Controllers
                 return NotFound();
             }
 
-            var preregistros = await _context.Preregistros
+            var preregistro = await _context.Preregistros
                 .Include(p => p.Estpr)
                 .Include(p => p.Tipopr)
+                .Include(p => p.Evaluacion)
+                .ThenInclude(eval => eval.Usr)
                 .SingleOrDefaultAsync(m => m.PreregId == id);
-            if (preregistros == null)
+            if (preregistro == null)
             {
                 return NotFound();
             }
+            var evaluacion = new Evaluacion();
+            evaluacion.PreregId = preregistro.PreregId;
 
-            return View(preregistros);
+            return View(new PreregistrosViewModel { preregistros = preregistro,
+                                                    evaluacion = evaluacion });
         }
 
-        // GET: Preregistros/Create
-        public IActionResult Create([FromQuery(Name = "TipoPreRegistro")] string tipoPreregistro)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Evaluar([FromForm]  PreregistrosViewModel vm)
+        {
+
+            if (ModelState.IsValid)
+            {
+                vm.evaluacion.UsrId = 1;
+                //vm.evaluacion.PreregId = vm.preregistros.PreregId;
+
+                _context.Add(vm.evaluacion);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+           return View(vm);
+        }
+
+            // GET: Preregistros/Create
+            public IActionResult Create([FromQuery(Name = "TipoPreRegistro")] string tipoPreregistro)
         {
 
            
@@ -81,6 +103,9 @@ namespace udpublications.Controllers
             if (formFile == null && pregistro.TipoprId == 2)
             {
                 ModelState.AddModelError("formFile", "Por favor adjunte el CV(Hoja de Vida)");
+                ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre", pregistro.EstprId);
+                ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre", pregistro.TipoprId);
+
                 return View(pregistro);
             }
 
@@ -99,6 +124,7 @@ namespace udpublications.Controllers
 
             pregistro.PreregFechaCreacion = DateTime.Now;
             pregistro.PreregFechaModificacion = DateTime.Now;
+            pregistro.EstprId = 1;
 
             //if (ModelState.IsValid)
             //{
@@ -205,6 +231,23 @@ namespace udpublications.Controllers
         private bool PreregistrosExists(int id)
         {
             return _context.Preregistros.Any(e => e.PreregId == id);
+        }
+ 
+
+       
+        public async Task <IActionResult> DownloadCV(int id)
+        {
+            var preregistro = await _context.Preregistros.SingleOrDefaultAsync(m => m.PreregId == id);
+
+            if (preregistro.PreregAdjunto == null)
+            {
+                Response.StatusCode = 404;
+                return View("AdjuntoNotFound");
+            }
+
+            string fileName = "CV_" + preregistro.PreregIdentificacion;
+            return File(preregistro.PreregAdjunto, "application/pdf");
+
         }
     }
 }

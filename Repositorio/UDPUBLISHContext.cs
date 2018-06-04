@@ -108,7 +108,9 @@ namespace Repositorio
                     .HasColumnName("prereg_id")
                     .ValueGeneratedOnAdd();
 
-                entity.Property(e => e.EstprId).HasColumnName("estpr_id");
+                entity.Property(e => e.EstprId)
+                 .IsRequired()
+                 .HasColumnName("estpr_id");
 
                 entity.Property(e => e.PreregApellidos)
                     .IsRequired()
@@ -152,7 +154,9 @@ namespace Repositorio
                     .HasMaxLength(250)
                     .IsUnicode(false);
 
-                entity.Property(e => e.TipoprId).HasColumnName("tipopr_id");
+                entity.Property(e => e.TipoprId)
+                .IsRequired()
+                .HasColumnName("tipopr_id");
 
                 entity.Property(e => e.PreregAdjunto).HasColumnName("prereg_adjunto");
 

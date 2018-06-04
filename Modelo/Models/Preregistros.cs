@@ -50,14 +50,20 @@ namespace Modelo.Models
         [StringLength(60, MinimumLength = 3)]
 
         public string PreregAreaProfesional { get; set; }
-       
-        public DateTime PreregFechaCreacion { get; set; }        
-       
-        public DateTime? PreregFechaModificacion { get; set; }       
-       
+
+        [Display(Name = "Fecha de Creación")]
+        public DateTime PreregFechaCreacion { get; set; }
+        [Display(Name = "Fecha de Modificación")]
+        public DateTime? PreregFechaModificacion { get; set; }
+
+        [Display(Name = "Tipo")]
         public int TipoprId { get; set; }
-        public int? EstprId { get; set; }
+        [Display(Name = "Estado")]
+        public int EstprId { get; set; }
+        [Display(Name = "Estado")]
         public EstadoPrereg Estpr { get; set; }
+        [Display(Name = "Tipo")]
+
         public TipoPreregistro Tipopr { get; set; }
         public ICollection<Evaluacion> Evaluacion { get; set; }
         [NotMapped]

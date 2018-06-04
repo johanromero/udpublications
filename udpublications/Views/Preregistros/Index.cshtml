@@ -24,12 +24,12 @@
                 <th>
                     @Html.DisplayNameFor(model => model.PreregEmail)
                 </th>
-                <th>
+                @*<th>
                     @Html.DisplayNameFor(model => model.PreregTematica)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.PreregAreaProfesional)
-                </th>
+                </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.PreregFechaCreacion)
                 </th>
@@ -63,12 +63,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PreregEmail)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.PreregTematica)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PreregAreaProfesional)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.PreregFechaCreacion)
             </td>
@@ -87,7 +87,7 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PreregId">Evaluar</a> |
                 <a asp-action="Details" asp-route-id="@item.PreregId">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.PreregId">Eliminar</a>
+                @*<a asp-action="Delete" asp-route-id="@item.PreregId">Eliminar</a>*@
             </td>
         </tr>
 }

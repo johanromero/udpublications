@@ -1,82 +1,143 @@
-﻿@model Modelo.Models.Preregistros
+﻿@model Modelo.Models.PreregistrosViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h2>Añadir Observación</h2>
 
 <div>
-    <h4>Preregistros</h4>
+    <h4>Preregistro</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.PreregIdentificacion)
+            @Html.DisplayNameFor(model => model.preregistros.PreregIdentificacion)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PreregIdentificacion)
+            @Html.DisplayFor(model => model.preregistros.PreregIdentificacion)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PreregNombres)
+            @Html.DisplayNameFor(model => model.preregistros.PreregNombres)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PreregNombres)
+            @Html.DisplayFor(model => model.preregistros.PreregNombres)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PreregApellidos)
+            @Html.DisplayNameFor(model => model.preregistros.PreregApellidos)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PreregApellidos)
+            @Html.DisplayFor(model => model.preregistros.PreregApellidos)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PreregEmail)
+            @Html.DisplayNameFor(model => model.preregistros.PreregEmail)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PreregEmail)
+            @Html.DisplayFor(model => model.preregistros.PreregEmail)
+        </dd>
+
+        @if (Model.preregistros.TipoprId == 2)
+    {
+        <dt>
+            @Html.DisplayNameFor(model => model.preregistros.PreregTematica)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.preregistros.PreregTematica)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PreregTematica)
+            @Html.DisplayNameFor(model => model.preregistros.PreregAreaProfesional)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PreregTematica)
+            @Html.DisplayFor(model => model.preregistros.PreregAreaProfesional)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PreregAreaProfesional)
+            @Html.DisplayNameFor(model => model.preregistros.PreregAdjunto)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PreregAreaProfesional)
+            @Html.ActionLink("Descargar CV", "DownloadCV", "Preregistros", new { id = Model.preregistros.PreregId }, new { target = "_blank" })
+        </dd>
+}
+        <dt>
+            @Html.DisplayNameFor(model => model.preregistros.PreregFechaCreacion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.preregistros.PreregFechaCreacion)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PreregFechaCreacion)
+            @Html.DisplayNameFor(model => model.preregistros.PreregFechaModificacion)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PreregFechaCreacion)
+            @Html.DisplayFor(model => model.preregistros.PreregFechaModificacion)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.preregistros.Estpr)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.preregistros.Estpr.EstprNombre)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PreregFechaModificacion)
+            @Html.DisplayNameFor(model => model.preregistros.Tipopr)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PreregFechaModificacion)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PreregAdjunto)
-        </dt>
- 
-        <dt>
-            @Html.DisplayNameFor(model => model.Estpr)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Estpr.EstprNombre)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Tipopr)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Tipopr.TipoprNombre)
+            @Html.DisplayFor(model => model.preregistros.Tipopr.TipoprNombre)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.PreregId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <label>Observaciones anteriores</label>
+    <table class="table basic-border">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.preregistros.Evaluacion.First().EvalObservacion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.preregistros.Evaluacion.First().Usr)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.preregistros.Evaluacion)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EvalObservacion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usr.UsrNombre)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div></div>
+    <form asp-action="Evaluar" id="formEvaluar">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @*<input type="hidden" asp-for="Mo.PreregId" />*@
+        <div class="form-group">
+            <label class="control-label">Añadir Observación</label>
+            <input asp-for="evaluacion.EvalObservacion" class="form-control" />
+            <span asp-validation-for="evaluacion.EvalObservacion" class="text-danger"></span>
+        </div>
+
+        <div class="form-group" hidden>
+            <label asp-for="evaluacion.UsrId" class="control-label"></label>
+            <input asp-for="evaluacion.UsrId" class="form-control" />
+        </div>
+        <div class="form-group" hidden>
+            <label asp-for="evaluacion.PreregId" class="control-label"></label>
+            <input asp-for="evaluacion.PreregId" class="form-control" />
+        </div>
+
+
+        <div class="form-group">
+            <input type="submit" value="Guardar" class="btn btn-default" />
+        </div>
+    </form>
+</div>
+<div>
+    @*<a asp-action="Edit" asp-route-id="@Model.preregistros.PreregId">Edit</a> |*@
+    <a asp-action="Index">Volver al inicio</a>
 </div>
