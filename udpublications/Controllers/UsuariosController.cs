@@ -22,8 +22,8 @@ namespace udpublications.Controllers
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
-            var uDPUBLISHContext = _context.Usuario.Include(u => u.Rol);
-            return View(await uDPUBLISHContext.ToListAsync());
+            var q =  _context.Usuario.Include(u => u.Rol);
+            return  View(await q.ToListAsync());
         }
 
         // GET: Usuarios/Details/5

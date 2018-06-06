@@ -37,7 +37,6 @@ namespace Modelo.Models
         [EmailAddress(ErrorMessage ="Ingrese un email válido")]
         [StringLength(60, MinimumLength = 3)]
         public string PreregEmail { get; set; }
-        [Required(ErrorMessage = "Curriculum Vitae es un campo obligatorio")]
         [Display(Name = "Curriculum Vitae (Hoja de Vida)")]
         public byte[] PreregAdjunto { get; set; }
         [Required(ErrorMessage = "Temática es un campo obligatorio")]

@@ -22,7 +22,7 @@ namespace Repositorio
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-   
+
 
             modelBuilder.Entity<EstadoPrereg>(entity =>
             {

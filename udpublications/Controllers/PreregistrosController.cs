@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Modelo.Models;
@@ -49,6 +50,11 @@ namespace udpublications.Controllers
             var evaluacion = new Evaluacion();
             evaluacion.PreregId = preregistro.PreregId;
 
+            var estadosXRol = _context.EstadoPrereg.Where(p => (p.EstprId == 2 || p.EstprId == 3 || p.EstprId == 4));
+
+            ViewData["EstprId"] = new SelectList(estadosXRol, "EstprId", "EstprNombre", preregistro.EstprId);
+
+
             return View(new PreregistrosViewModel { preregistros = preregistro,
                                                     evaluacion = evaluacion });
         }
@@ -61,7 +67,14 @@ namespace udpublications.Controllers
             if (ModelState.IsValid)
             {
                 vm.evaluacion.UsrId = 1;
-                //vm.evaluacion.PreregId = vm.preregistros.PreregId;
+
+                var preregInicial = await _context.Preregistros
+                            .Include(p => p.Evaluacion)
+                            .ThenInclude(eval => eval.Usr)
+                            .SingleOrDefaultAsync(m => m.PreregId == vm.evaluacion.PreregId);
+
+                preregInicial.EstprId = vm.EstprId;
+                preregInicial.PreregFechaModificacion = DateTime.Now;
 
                 _context.Add(vm.evaluacion);
                 await _context.SaveChangesAsync();
@@ -150,7 +163,12 @@ namespace udpublications.Controllers
                 return NotFound();
             }
 
-            var preregistros = await _context.Preregistros.SingleOrDefaultAsync(m => m.PreregId == id);
+            var preregistros = await _context.Preregistros
+                                    .Include(p => p.Evaluacion)
+                                    .ThenInclude(eval => eval.Usr)
+                                    .SingleOrDefaultAsync(m => m.PreregId == id);                                   
+                                    
+                                  
             if (preregistros == null)
             {
                 return NotFound();
@@ -165,23 +183,47 @@ namespace udpublications.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PreregId,PreregIdentificacion,PreregNombres,PreregApellidos,PreregEmail,CvId,PreregTematica,PreregAreaProfesional,PreregFechaCreacion,PreregFechaModificacion,TipoprId,EstprId")] Preregistros preregistros)
+        public async Task<IActionResult> Edit(int id, [FromForm] Preregistros preregistro, IFormFile formFile)
         {
-            if (id != preregistros.PreregId)
+            if (id != preregistro.PreregId)
             {
                 return NotFound();
+            }
+            var preregInicial = await _context.Preregistros
+                                  .Include(p => p.Evaluacion)
+                                  .ThenInclude(eval => eval.Usr)
+                                  .SingleOrDefaultAsync(m => m.PreregId == id);
+
+            preregInicial.PreregFechaModificacion = DateTime.Now;
+            preregInicial.EstprId = 2;
+            preregInicial.PreregNombres = preregistro.PreregNombres;
+            preregInicial.PreregApellidos = preregistro.PreregApellidos;
+            preregInicial.PreregAreaProfesional = preregistro.PreregAreaProfesional;
+            preregInicial.PreregEmail = preregistro.PreregEmail;
+            preregInicial.PreregIdentificacion = preregistro.PreregIdentificacion;
+            preregInicial.PreregTematica = preregistro.PreregTematica;
+
+
+            if (formFile != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await formFile.CopyToAsync(memoryStream);
+                    preregInicial.PreregAdjunto = memoryStream.ToArray();
+                }
             }
 
             if (ModelState.IsValid)
             {
-                try
+            
+            try
                 {
-                    _context.Update(preregistros);
+                    _context.Update(preregInicial);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PreregistrosExists(preregistros.PreregId))
+                    if (!PreregistrosExists(preregInicial.PreregId))
                     {
                         return NotFound();
                     }
@@ -192,9 +234,9 @@ namespace udpublications.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre", preregistros.EstprId);
-            ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre", preregistros.TipoprId);
-            return View(preregistros);
+            ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre", preregistro.EstprId);
+            ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre", preregistro.TipoprId);
+            return View(preregistro);
         }
 
         // GET: Preregistros/Delete/5

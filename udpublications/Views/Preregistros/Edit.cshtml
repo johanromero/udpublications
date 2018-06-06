@@ -4,17 +4,17 @@
     ViewData["Title"] = "Editar";
 }
 
-<h2>Edicións</h2>
+<h2>Editar preregistro</h2>
 
-<h4>Preregistros</h4>
+@*<h4>Preregistros</h4>*@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="PreregId" />
             <div class="form-group">
-                <label asp-for="PreregIdentificacion" class="control-label" ></label>
+                <label asp-for="PreregIdentificacion" class="control-label"></label>
                 <input asp-for="PreregIdentificacion" class="form-control" />
                 <span asp-validation-for="PreregIdentificacion" class="text-danger"></span>
             </div>
@@ -36,11 +36,12 @@
 
             @if (Model.TipoprId == 2)
     {
-        @*<div class="form-group">
+        <div class="form-group">
             <label asp-for="PreregAdjunto" class="control-label"></label>
-            <select asp-for="PreregAdjunto" class="form-control" asp-items="ViewBag.CvId"></select>
-            <span asp-validation-for="PreregAdjunto" class="text-danger"></span>
-        </div>*@
+            <input type="file" name="formFile" id="formFile" class="form-control" accept="application/pdf" />
+            @*<span asp-validation-for="PreregAdjunto" class="text-danger"></span>*@
+        </div>
+
         <div class="form-group">
             <label asp-for="PreregTematica" class="control-label"></label>
             <input asp-for="PreregTematica" class="form-control" />
@@ -52,35 +53,63 @@
             <span asp-validation-for="PreregAreaProfesional" class="text-danger"></span>
         </div>
 
-
 }
 
-        @*<div class="form-group">
-        <label asp-for="PreregFechaCreacion" class="control-label"></label>
-        <input asp-for="PreregFechaCreacion" class="form-control" />
-        <span asp-validation-for="PreregFechaCreacion" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="PreregFechaModificacion" class="control-label"></label>
-        <input asp-for="PreregFechaModificacion" class="form-control" />
-        <span asp-validation-for="PreregFechaModificacion" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="TipoprId" class="control-label"></label>
-        <select asp-for="TipoprId" class="form-control" asp-items="ViewBag.TipoprId"></select>
-        <span asp-validation-for="TipoprId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="EstprId" class="control-label"></label>
-        <select asp-for="EstprId" class="form-control" asp-items="ViewBag.EstprId"></select>
-        <span asp-validation-for="EstprId" class="text-danger"></span>
-    </div>*@
+            <div class="form-group" >
+                <label asp-for="PreregFechaCreacion" class="control-label"></label>
+                <input asp-for="PreregFechaCreacion" class="form-control" disabled />
+                <span asp-validation-for="PreregFechaCreacion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" >
+                <label asp-for="PreregFechaModificacion" class="control-label"></label>
+                <input asp-for="PreregFechaModificacion" class="form-control" disabled/>
+                <span asp-validation-for="PreregFechaModificacion" class="text-danger"></span>
+            </div>
+            <div class="form-group" >
+                <label asp-for="TipoprId" class="control-label"></label>
+                <select asp-for="TipoprId" class="form-control" asp-items="ViewBag.TipoprId" disabled ></select>
+            </div>
+            <div class="form-group" >
+                <label class="control-label">Estado del pre-registro</label>
+                <select asp-for="EstprId" class="form-control" asp-items="ViewBag.EstprId" disabled></select>
+            </div>
+
+
+
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Guardar" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
+
+<label>Observaciones anteriores</label>
+<table class="table basic-border">
+    <thead>
+        <tr>
+            <th>
+                Detalle
+            </th>
+            <th>
+                Evaluador
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Evaluacion)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvalObservacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Usr.UsrNombre)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 <div>
     <a asp-action="Index">Back to List</a>

@@ -11,6 +11,7 @@
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PreregId" />
             @*<div class="form-group">
             <label asp-for="PreregId" class="control-label"></label>
             <input asp-for="PreregId" class="form-control" />
@@ -39,17 +40,13 @@
 
             @if (Model.TipoprId == 2)
     {
-        @*<div class="form-group">
-        <label asp-for="CvId" class="control-label"></label>
-        <select asp-for="CvId" class="form-control" asp-items="ViewBag.CvId"></select>
+    
+        <div class="form-group">
+            <label asp-for="PreregAdjunto" class="control-label"></label>
+            <input type="file" name="formFile" id="formFile" class="form-control" accept="application/pdf" />
+            <span asp-validation-for="PreregAdjunto" class="text-danger"></span>
 
-    </div>*@
-            <div class="form-group">
-                <label asp-for="PreregAdjunto" class="control-label"></label>
-                <input type="file" name="formFile" id="formFile" class="form-control" accept="application/pdf" />
-                <span asp-validation-for="PreregAdjunto" class="text-danger"></span>
-
-            </div>
+        </div>
         <div class="form-group">
             <label asp-for="PreregTematica" class="control-label"></label>
             <input asp-for="PreregTematica" class="form-control" />
@@ -72,20 +69,20 @@
                 <input asp-for="PreregFechaModificacion" class="form-control" />
                 <span asp-validation-for="PreregFechaModificacion" class="text-danger"></span>
             </div>
-            <div class="form-group" hidden>
+            <div class="form-group">
                 <label asp-for="TipoprId" class="control-label"></label>
-                <select asp-for="TipoprId" class="form-control" asp-items="ViewBag.TipoprId"></select>
+                <select asp-for="TipoprId" class="form-control" asp-items="ViewBag.TipoprId" disabled></select>
             </div>
             <div class="form-group" readonly>
                 <label class="control-label">Estado del pre-registro</label>
                 <select asp-for="EstprId" class="form-control" asp-items="ViewBag.EstprId" disabled></select>
             </div>
 
-          
-                    <div class="form-group">
-                        <input type="submit" value="Crear" class="btn btn-default" />
-                    </div>
-            
+
+            <div class="form-group">
+                <input type="submit" value="Crear" class="btn btn-default" />
+            </div>
+
 
 
         </form>

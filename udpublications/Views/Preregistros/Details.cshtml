@@ -130,6 +130,10 @@
             <label asp-for="evaluacion.PreregId" class="control-label"></label>
             <input asp-for="evaluacion.PreregId" class="form-control" />
         </div>
+        <div class="form-group">
+            <label class="control-label">RESULTADO DE LA EVALUACIÓN</label>
+            <select asp-for="EstprId" class="form-control" asp-items="ViewBag.EstprId"></select>
+        </div>
 
 
         <div class="form-group">

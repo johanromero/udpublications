@@ -8,5 +8,6 @@ namespace Modelo.Models
     {
         public Preregistros preregistros { get; set; }
         public Evaluacion evaluacion { get; set; }
+        public int EstprId { get; set; }
     }
 }

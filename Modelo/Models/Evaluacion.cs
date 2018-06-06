@@ -19,6 +19,7 @@ namespace Modelo.Models
         public int UsrId { get; set; }
 
         public Preregistros Prereg { get; set; }
+        [Display(Name = "Evaluador")]
         public Usuario Usr { get; set; }
     }
 }
