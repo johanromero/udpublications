@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Repositorio;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace udpublications
 {
     public class Startup
@@ -22,6 +24,18 @@ namespace udpublications
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(options =>
+            {
+                options.LoginPath = "/Login/Index/";
+                options.AccessDeniedPath = "/Login/Index/";
+                options.LogoutPath = "/Login/Index/";
+            });
+
             services.AddMvc();
 
             var connection = Configuration.GetConnectionString("DefaultConnection");
@@ -41,8 +55,10 @@ namespace udpublications
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
+              
 
+            app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

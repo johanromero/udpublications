@@ -112,35 +112,39 @@
         </tbody>
     </table>
 
-    <div></div>
-    <form asp-action="Evaluar" id="formEvaluar">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @*<input type="hidden" asp-for="Mo.PreregId" />*@
-        <div class="form-group">
-            <label class="control-label">Añadir Observación</label>
-            <input asp-for="evaluacion.EvalObservacion" class="form-control" />
-            <span asp-validation-for="evaluacion.EvalObservacion" class="text-danger"></span>
-        </div>
-
-        <div class="form-group" hidden>
-            <label asp-for="evaluacion.UsrId" class="control-label"></label>
-            <input asp-for="evaluacion.UsrId" class="form-control" />
-        </div>
-        <div class="form-group" hidden>
-            <label asp-for="evaluacion.PreregId" class="control-label"></label>
-            <input asp-for="evaluacion.PreregId" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label class="control-label">RESULTADO DE LA EVALUACIÓN</label>
-            <select asp-for="EstprId" class="form-control" asp-items="ViewBag.EstprId"></select>
-        </div>
 
 
-        <div class="form-group">
-            <input type="submit" value="Guardar" class="btn btn-default" />
-        </div>
-    </form>
-</div>
+    @if (User.Identity.IsAuthenticated && User.IsInRole("EVALUADOR"))
+    {
+        <form asp-action="Evaluar" id="formEvaluar">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<input type="hidden" asp-for="Mo.PreregId" />*@
+            <div class="form-group">
+                <label class="control-label">Añadir Observación</label>
+                <input asp-for="evaluacion.EvalObservacion" class="form-control" />
+                <span asp-validation-for="evaluacion.EvalObservacion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" hidden>
+                <label asp-for="evaluacion.UsrId" class="control-label"></label>
+                <input asp-for="evaluacion.UsrId" class="form-control" />
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="evaluacion.PreregId" class="control-label"></label>
+                <input asp-for="evaluacion.PreregId" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">RESULTADO DE LA EVALUACIÓN</label>
+                <select asp-for="EstprId" class="form-control" asp-items="ViewBag.EstprId"></select>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-default" />
+            </div>
+        </form>
+    }
+    </div>
 <div>
     @*<a asp-action="Edit" asp-route-id="@Model.preregistros.PreregId">Edit</a> |*@
     <a asp-action="Index">Volver al inicio</a>

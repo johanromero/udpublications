@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,19 +15,21 @@ namespace udpublications.Controllers
     {
         private readonly UDPUBLISHContext _context;
 
-        public UsuariosController(UDPUBLISHContext context)
+       public UsuariosController(UDPUBLISHContext context)
         {
             _context = context;
         }
 
         // GET: Usuarios
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Index()
         {
-            var q =  _context.Usuario.Include(u => u.Rol);
-            return  View(await q.ToListAsync());
+            var qUsuario =  _context.Usuario.Include(u => u.Rol);
+            return  View(await qUsuario.ToListAsync());
         }
 
         // GET: Usuarios/Details/5
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,6 +49,7 @@ namespace udpublications.Controllers
         }
 
         // GET: Usuarios/Create
+        [Authorize(Roles = "ADMINISTRADOR")]
         public IActionResult Create()
         {
             ViewData["RolId"] = new SelectList(_context.Roles, "RolId", "RolNombre");
@@ -57,6 +61,7 @@ namespace udpublications.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Create([Bind("UsrId,UsrNombre,UsrPassword,UsrActivo,RolId")] Usuario usuario)
         {
             if (ModelState.IsValid)
@@ -70,6 +75,7 @@ namespace udpublications.Controllers
         }
 
         // GET: Usuarios/Edit/5
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -91,6 +97,7 @@ namespace udpublications.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Edit(int id, [Bind("UsrId,UsrNombre,UsrPassword,UsrActivo,RolId")] Usuario usuario)
         {
             if (id != usuario.UsrId)

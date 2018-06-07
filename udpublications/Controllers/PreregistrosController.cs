@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -21,7 +22,7 @@ namespace udpublications.Controllers
         {
             _context = context;
         }
-
+        [Authorize(Roles = "ADMINISTRADOR,EVALUADOR")]
         // GET: Preregistros
         public async Task<IActionResult> Index()
         {
@@ -30,6 +31,7 @@ namespace udpublications.Controllers
         }
 
         // GET: Preregistros/Details/5
+        [Authorize(Roles = "ADMINISTRADOR,EVALUADOR")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -61,12 +63,14 @@ namespace udpublications.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRADOR,EVALUADOR")]
         public async Task<IActionResult> Evaluar([FromForm]  PreregistrosViewModel vm)
         {
 
             if (ModelState.IsValid)
             {
                 vm.evaluacion.UsrId = 1;
+                vm.evaluacion.EvalFecha = DateTime.Now;
 
                 var preregInicial = await _context.Preregistros
                             .Include(p => p.Evaluacion)
@@ -74,9 +78,10 @@ namespace udpublications.Controllers
                             .SingleOrDefaultAsync(m => m.PreregId == vm.evaluacion.PreregId);
 
                 preregInicial.EstprId = vm.EstprId;
-                preregInicial.PreregFechaModificacion = DateTime.Now;
 
                 _context.Add(vm.evaluacion);
+                _context.Update(preregInicial);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -85,9 +90,7 @@ namespace udpublications.Controllers
 
             // GET: Preregistros/Create
             public IActionResult Create([FromQuery(Name = "TipoPreRegistro")] string tipoPreregistro)
-        {
-
-           
+        {           
             ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre");
             var qTipoP = _context.TipoPreregistro;
             var tiposPRERList = new SelectList(qTipoP, "TipoprId", "TipoprNombre");
@@ -115,13 +118,30 @@ namespace udpublications.Controllers
         {
             if (formFile == null && pregistro.TipoprId == 2)
             {
-                ModelState.AddModelError("formFile", "Por favor adjunte el CV(Hoja de Vida)");
+                ModelState.AddModelError("PreregAdjunto", "Por favor adjunte la hoja de vida");
                 ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre", pregistro.EstprId);
                 ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre", pregistro.TipoprId);
 
                 return View(pregistro);
             }
 
+            if ((pregistro.PreregAreaProfesional == null) && pregistro.TipoprId == 2)
+            {
+                ModelState.AddModelError("PreregAreaProfesional", "Área profesional es un campo obligatorio");
+                ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre", pregistro.EstprId);
+                ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre", pregistro.TipoprId);
+
+                return View(pregistro);
+            }
+            if ((pregistro.PreregTematica == null) && pregistro.TipoprId == 2)
+            {
+                ModelState.AddModelError("PreregTematica", "Temática es un campo obligatorio");
+                ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre", pregistro.EstprId);
+                ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre", pregistro.TipoprId);
+
+                return View(pregistro);
+            }
+           
             if (pregistro.TipoprId == 2)
             {
                 using (var memoryStream = new MemoryStream())
@@ -178,6 +198,8 @@ namespace udpublications.Controllers
             return View(preregistros);
         }
 
+       
+
         // POST: Preregistros/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -203,6 +225,18 @@ namespace udpublications.Controllers
             preregInicial.PreregIdentificacion = preregistro.PreregIdentificacion;
             preregInicial.PreregTematica = preregistro.PreregTematica;
 
+            //if (!ModelState.IsValid)
+            //{
+            //    var modelErrors = new List<string>();
+            //    foreach (var modelState in ModelState.Values)
+            //    {
+            //        foreach (var modelError in modelState.Errors)
+            //        {
+            //            modelErrors.Add(modelError.ErrorMessage);
+            //        }
+            //    }
+            //    Console.WriteLine(modelErrors.ToString());
+            //}
 
             if (formFile != null)
             {

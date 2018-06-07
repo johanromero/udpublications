@@ -17,6 +17,8 @@ namespace Modelo.Models
         public string EvalObservacion { get; set; }
         [Display(Name = "Evaluador")]
         public int UsrId { get; set; }
+        [Display(Name = "Fecha de Evaluación")]
+        public DateTime EvalFecha { get; set; }
 
         public Preregistros Prereg { get; set; }
         [Display(Name = "Evaluador")]

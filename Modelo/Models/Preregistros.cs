@@ -37,14 +37,14 @@ namespace Modelo.Models
         [EmailAddress(ErrorMessage ="Ingrese un email válido")]
         [StringLength(60, MinimumLength = 3)]
         public string PreregEmail { get; set; }
-        [Display(Name = "Curriculum Vitae (Hoja de Vida)")]
+        [Display(Name = "Hoja de Vida")]
         public byte[] PreregAdjunto { get; set; }
-        [Required(ErrorMessage = "Temática es un campo obligatorio")]
+        //[Required(ErrorMessage = "Temática es un campo obligatorio")]
         [Display(Name = "Temática")]
         [StringLength(60, MinimumLength = 3) ]
 
         public string PreregTematica { get; set; }
-        [Required(ErrorMessage = "Área profesional es un campo obligatorio")]
+        //[Required(ErrorMessage = "Área profesional es un campo obligatorio")]
         [Display(Name = "Área profesional")]
         [StringLength(60, MinimumLength = 3)]
 
@@ -53,7 +53,7 @@ namespace Modelo.Models
         [Display(Name = "Fecha de Creación")]
         public DateTime PreregFechaCreacion { get; set; }
         [Display(Name = "Fecha de Modificación")]
-        public DateTime? PreregFechaModificacion { get; set; }
+        public DateTime PreregFechaModificacion { get; set; }
 
         [Display(Name = "Tipo")]
         public int TipoprId { get; set; }

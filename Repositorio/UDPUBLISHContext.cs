@@ -60,6 +60,11 @@ namespace Repositorio
 
                 entity.Property(e => e.UsrId).HasColumnName("usr_id");
 
+
+                entity.Property(e => e.EvalFecha)
+                    .HasColumnName("eval_fecha")
+                    .HasColumnType("datetime");
+
                 entity.HasOne(d => d.Prereg)
                     .WithMany(p => p.Evaluacion)
                     .HasForeignKey(d => d.PreregId)

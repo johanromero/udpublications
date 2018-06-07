@@ -1,0 +1,31 @@
+﻿
+@model Modelo.Models.BuscarViewModel
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Buscar">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PreregIdentificacion" class="control-label"></label>
+                <input asp-for="PreregIdentificacion" class="form-control" />
+                <span asp-validation-for="PreregIdentificacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PreregNombres" class="control-label"></label>
+                <input asp-for="PreregNombres" class="form-control" />
+                <span asp-validation-for="PreregNombres" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PreregApellidos" class="control-label"></label>
+                <input asp-for="PreregApellidos" class="form-control" />
+                <span asp-validation-for="PreregApellidos" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Buscar" class="btn btn-default" />
+            </div>
+
+
+        </form>
+    </div>
+</div>

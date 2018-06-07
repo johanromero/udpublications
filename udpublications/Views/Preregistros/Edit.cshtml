@@ -35,25 +35,23 @@
             </div>
 
             @if (Model.TipoprId == 2)
-    {
-        <div class="form-group">
-            <label asp-for="PreregAdjunto" class="control-label"></label>
-            <input type="file" name="formFile" id="formFile" class="form-control" accept="application/pdf" />
-            @*<span asp-validation-for="PreregAdjunto" class="text-danger"></span>*@
-        </div>
-
-        <div class="form-group">
-            <label asp-for="PreregTematica" class="control-label"></label>
-            <input asp-for="PreregTematica" class="form-control" />
-            <span asp-validation-for="PreregTematica" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="PreregAreaProfesional" class="control-label"></label>
-            <input asp-for="PreregAreaProfesional" class="form-control" />
-            <span asp-validation-for="PreregAreaProfesional" class="text-danger"></span>
-        </div>
-
-}
+            {
+                <div class="form-group">
+                    <label class="control-label">Hoja de Vida (Opcional)</label>
+                    <input type="file" name="formFile" id="formFile" class="form-control" accept="application/pdf" />
+                    @*<span asp-validation-for="PreregAdjunto" class="text-danger"></span>*@
+                </div>
+                <div class="form-group">
+                    <label asp-for="PreregTematica" class="control-label"></label>
+                    <input asp-for="PreregTematica" class="form-control" />
+                    <span asp-validation-for="PreregTematica" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PreregAreaProfesional" class="control-label"></label>
+                    <input asp-for="PreregAreaProfesional" class="form-control" />
+                    <span asp-validation-for="PreregAreaProfesional" class="text-danger"></span>
+                </div>
+            }
 
             <div class="form-group" >
                 <label asp-for="PreregFechaCreacion" class="control-label"></label>
@@ -74,8 +72,6 @@
                 <label class="control-label">Estado del pre-registro</label>
                 <select asp-for="EstprId" class="form-control" asp-items="ViewBag.EstprId" disabled></select>
             </div>
-
-
 
             <div class="form-group">
                 <input type="submit" value="Guardar" class="btn btn-default" />
