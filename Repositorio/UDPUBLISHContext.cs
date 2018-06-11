@@ -163,6 +163,11 @@ namespace Repositorio
                 .IsRequired()
                 .HasColumnName("tipopr_id");
 
+                 entity.Property(e => e.preregEditCount)
+                .IsRequired()
+                .HasDefaultValue(0)
+                .HasColumnName("prereg_edit_count");
+
                 entity.Property(e => e.PreregAdjunto).HasColumnName("prereg_adjunto");
 
 

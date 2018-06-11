@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Modelo.Models
 {
-    public class LoginModel
+    public class LoginViewModel
     {
         [Required(ErrorMessage = "Ingrese el nombre de usuario")]
         [Display(Name = "Nombre de usuario")]

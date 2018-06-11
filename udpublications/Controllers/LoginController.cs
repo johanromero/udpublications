@@ -28,7 +28,7 @@ namespace udpublications.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Login([FromForm] LoginModel loginModel)
+        public async Task<IActionResult> Login([FromForm] LoginViewModel loginModel)
         {
             if (ModelState.IsValid)
             {
@@ -37,22 +37,20 @@ namespace udpublications.Controllers
                                             (m.UsrNombre == loginModel.Username
                                                 && m.UsrPassword == loginModel.Password));
 
-                var isValid = usuario != null; // TODO Validate the username and the password with your own logic
-                if (!isValid)
+                var userExist = usuario != null; // TODO Validate the username and the password with your own logic
+                if (!userExist)
                 {
                     ModelState.AddModelError("Username", "Usuario o contraseña inválidos");
                     return View("Index",loginModel);
                 }
 
-                // Create the identity from the user info
-                var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.UsrId.ToString().Trim()));
-                identity.AddClaim(new Claim(ClaimTypes.Name, usuario.UsrNombre.Trim()));
-                identity.AddClaim(new Claim(ClaimTypes.Role, usuario.Rol.RolNombre.Trim()));
+                if (!usuario.UsrActivo)
+                {
+                    ModelState.AddModelError("Username", "Usuario inactivo");
+                    return View("Index", loginModel);
+                }
 
-                // Authenticate using the identity
-                var principal = new ClaimsPrincipal(identity);
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                CreateClaims(usuario);
 
                 return RedirectToAction("Index", "Home");
             }
@@ -68,5 +66,20 @@ namespace udpublications.Controllers
             return RedirectToAction(nameof(Index), "Home");
         }
 
+         
+        private async void CreateClaims(Usuario usuario)
+        {
+
+            // Create the identity from the user info
+            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.UsrId.ToString().Trim()));
+            identity.AddClaim(new Claim(ClaimTypes.Name, usuario.UsrNombre.Trim()));
+            identity.AddClaim(new Claim(ClaimTypes.Role, usuario.Rol.RolNombre.Trim()));
+
+            // Authenticate using the identity
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+        }
     }
 }

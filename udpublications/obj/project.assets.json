@@ -11,6 +11,26 @@
           "lib/netstandard1.6/AlanJuden.MvcReportViewer.NetCore.dll": {}
         }
       },
+      "DotNetCore.NPOI/1.0.2": {
+        "type": "package",
+        "dependencies": {
+          "SharpZipLib": "1.0.0-alpha2",
+          "System.Text.Encoding.CodePages": "4.4.0",
+          "ZKWeb.System.Drawing": "4.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/NPOI.OOXML.dll": {},
+          "lib/netstandard2.0/NPOI.OpenXml4Net.dll": {},
+          "lib/netstandard2.0/NPOI.OpenXmlFormats.dll": {},
+          "lib/netstandard2.0/NPOI.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/NPOI.OOXML.dll": {},
+          "lib/netstandard2.0/NPOI.OpenXml4Net.dll": {},
+          "lib/netstandard2.0/NPOI.OpenXmlFormats.dll": {},
+          "lib/netstandard2.0/NPOI.dll": {}
+        }
+      },
       "Libuv/1.10.0": {
         "type": "package",
         "dependencies": {
@@ -3145,6 +3165,18 @@
           }
         }
       },
+      "SharpZipLib/1.0.0-alpha2": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.3/ICSharpCode.SharpZipLib.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/ICSharpCode.SharpZipLib.dll": {}
+        }
+      },
       "SQLitePCLRaw.bundle_green/1.1.7": {
         "type": "package",
         "dependencies": {
@@ -4756,7 +4788,7 @@
           "Microsoft.NETCore.Platforms": "2.0.0"
         },
         "compile": {
-          "ref/netstandard2.0/_._": {}
+          "ref/netstandard2.0/System.Text.Encoding.CodePages.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/System.Text.Encoding.CodePages.dll": {}
@@ -5051,6 +5083,23 @@
           "lib/netstandard1.3/Microsoft.WindowsAzure.Storage.dll": {}
         }
       },
+      "ZKWeb.System.Drawing/4.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections.NonGeneric": "4.3.0",
+          "System.Collections.Specialized": "4.3.0",
+          "System.ComponentModel.TypeConverter": "4.3.0",
+          "System.Runtime.InteropServices": "4.3.0",
+          "System.Runtime.Serialization.Primitives": "4.3.0",
+          "System.Threading.Thread": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/ZKWeb.System.Drawing.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/ZKWeb.System.Drawing.dll": {}
+        }
+      },
       "Modelo/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
@@ -5080,6 +5129,22 @@
         "runtime": {
           "bin/placeholder/Repositorio.dll": {}
         }
+      },
+      "Servicios/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "dependencies": {
+          "DotNetCore.NPOI": "1.0.2",
+          "Microsoft.EntityFrameworkCore": "2.0.3",
+          "Modelo": "1.0.0",
+          "Repositorio": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Servicios.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Servicios.dll": {}
+        }
       }
     }
   },
@@ -5097,6 +5162,19 @@
         "content/wwwroot/css/mvcreportviewer-bootstrap.css",
         "lib/netstandard1.6/AlanJuden.MvcReportViewer.NetCore.deps.json",
         "lib/netstandard1.6/AlanJuden.MvcReportViewer.NetCore.dll"
+      ]
+    },
+    "DotNetCore.NPOI/1.0.2": {
+      "sha512": "aG/PvJGcY4RkMsVSDuxgEohuZDE1RYoBMfvLDgwhUvJEMR8R9QYz1tBKaINV5Zzly9sT59QHLWmTTb0B32IfEQ==",
+      "type": "package",
+      "path": "dotnetcore.npoi/1.0.2",
+      "files": [
+        "dotnetcore.npoi.1.0.2.nupkg.sha512",
+        "dotnetcore.npoi.nuspec",
+        "lib/netstandard2.0/NPOI.OOXML.dll",
+        "lib/netstandard2.0/NPOI.OpenXml4Net.dll",
+        "lib/netstandard2.0/NPOI.OpenXmlFormats.dll",
+        "lib/netstandard2.0/NPOI.dll"
       ]
     },
     "Libuv/1.10.0": {
@@ -8393,6 +8471,17 @@
         "runtimes/win-x86/native/sni.dll",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "SharpZipLib/1.0.0-alpha2": {
+      "sha512": "ndshrRoIzWdvoHr5ncGvSp3p/At+H2l4nT4bfWgPB0VU39TOT5/6uS6XbkO9N95Y8quO5RgLMiEBO3M0nq4pXw==",
+      "type": "package",
+      "path": "sharpziplib/1.0.0-alpha2",
+      "files": [
+        "lib/netstandard1.3/ICSharpCode.SharpZipLib.dll",
+        "lib/netstandard1.3/ICSharpCode.SharpZipLib.xml",
+        "sharpziplib.1.0.0-alpha2.nupkg.sha512",
+        "sharpziplib.nuspec"
       ]
     },
     "SQLitePCLRaw.bundle_green/1.1.7": {
@@ -13216,6 +13305,17 @@
         "windowsazure.storage.nuspec"
       ]
     },
+    "ZKWeb.System.Drawing/4.0.0": {
+      "sha512": "lcw/HyN/nOstmAWFBnokLT/LXUbY3Dsu9VP4z/V7XIVHfM3V3/kORZ4DfYw2X9LdEYDO2xMX12kj/aZ5aIpLHw==",
+      "type": "package",
+      "path": "zkweb.system.drawing/4.0.0",
+      "files": [
+        "lib/net45/ZKWeb.System.Drawing.dll",
+        "lib/netstandard2.0/ZKWeb.System.Drawing.dll",
+        "zkweb.system.drawing.4.0.0.nupkg.sha512",
+        "zkweb.system.drawing.nuspec"
+      ]
+    },
     "Modelo/1.0.0": {
       "type": "project",
       "path": "../Modelo/Modelo.csproj",
@@ -13225,17 +13325,24 @@
       "type": "project",
       "path": "../Repositorio/Repositorio.csproj",
       "msbuildProject": "../Repositorio/Repositorio.csproj"
+    },
+    "Servicios/1.0.0": {
+      "type": "project",
+      "path": "../Servicios/Servicios.csproj",
+      "msbuildProject": "../Servicios/Servicios.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
       "AlanJuden.MvcReportViewer.NetCore >= 1.0.10",
+      "DotNetCore.NPOI >= 1.0.2",
       "Microsoft.AspNetCore.All >= 2.0.3",
       "Microsoft.EntityFrameworkCore.SqlServer >= 2.0.3",
       "Microsoft.EntityFrameworkCore.Tools >= 2.0.3",
       "Microsoft.NETCore.App >= 2.0.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.0.4",
-      "Repositorio >= 1.0.0"
+      "Repositorio >= 1.0.0",
+      "Servicios >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -13272,6 +13379,9 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
+            "C:\\devrepos\\udpublications\\Servicios\\Servicios.csproj": {
+              "projectPath": "C:\\devrepos\\udpublications\\Servicios\\Servicios.csproj"
+            },
             "C:\\devrepos\\udpublications\\Repositorio\\Repositorio.csproj": {
               "projectPath": "C:\\devrepos\\udpublications\\Repositorio\\Repositorio.csproj"
             }
@@ -13290,6 +13400,10 @@
           "AlanJuden.MvcReportViewer.NetCore": {
             "target": "Package",
             "version": "[1.0.10, )"
+          },
+          "DotNetCore.NPOI": {
+            "target": "Package",
+            "version": "[1.0.2, )"
           },
           "Microsoft.AspNetCore.All": {
             "target": "Package",

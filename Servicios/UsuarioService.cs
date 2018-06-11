@@ -11,7 +11,7 @@ namespace Servicios
 {
     public class UsuarioService
     {
-        public static async Task<object> ObtenerListaUsuario(UDPUBLISHContext _context)
+        public static async Task<List<Usuario>> ObtenerListaUsuario(UDPUBLISHContext _context)
         {
             return await _context.Usuario.Include(u => u.Rol).ToListAsync();
         }

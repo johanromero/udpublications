@@ -1,3 +1,7 @@
+C:\devrepos\udpublications\Repositorio\obj\Debug\netcoreapp2.0\Repositorio.csprojResolveAssemblyReference.cache
+C:\devrepos\udpublications\Repositorio\obj\Debug\netcoreapp2.0\Repositorio.csproj.CoreCompileInputs.cache
+C:\devrepos\udpublications\Repositorio\obj\Debug\netcoreapp2.0\Repositorio.AssemblyInfoInputs.cache
+C:\devrepos\udpublications\Repositorio\obj\Debug\netcoreapp2.0\Repositorio.AssemblyInfo.cs
 C:\devrepos\udpublications\Repositorio\bin\Debug\netcoreapp2.0\Repositorio.deps.json
 C:\devrepos\udpublications\Repositorio\bin\Debug\netcoreapp2.0\Repositorio.dll
 C:\devrepos\udpublications\Repositorio\bin\Debug\netcoreapp2.0\Repositorio.pdb
@@ -5,9 +9,5 @@ C:\devrepos\udpublications\Repositorio\bin\Debug\netcoreapp2.0\Modelo.dll
 C:\devrepos\udpublications\Repositorio\bin\Debug\netcoreapp2.0\Microsoft.AspNetCore.Http.Features.dll
 C:\devrepos\udpublications\Repositorio\bin\Debug\netcoreapp2.0\Modelo.pdb
 C:\devrepos\udpublications\Repositorio\bin\Debug\netcoreapp2.0\Microsoft.AspNetCore.Http.Features.xml
-C:\devrepos\udpublications\Repositorio\obj\Debug\netcoreapp2.0\Repositorio.csprojResolveAssemblyReference.cache
-C:\devrepos\udpublications\Repositorio\obj\Debug\netcoreapp2.0\Repositorio.csproj.CoreCompileInputs.cache
-C:\devrepos\udpublications\Repositorio\obj\Debug\netcoreapp2.0\Repositorio.AssemblyInfoInputs.cache
-C:\devrepos\udpublications\Repositorio\obj\Debug\netcoreapp2.0\Repositorio.AssemblyInfo.cs
 C:\devrepos\udpublications\Repositorio\obj\Debug\netcoreapp2.0\Repositorio.dll
 C:\devrepos\udpublications\Repositorio\obj\Debug\netcoreapp2.0\Repositorio.pdb

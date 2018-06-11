@@ -1,0 +1,15 @@
+C:\devrepos\udpublications\Servicios\obj\Debug\netcoreapp2.0\Servicios.csprojResolveAssemblyReference.cache
+C:\devrepos\udpublications\Servicios\obj\Debug\netcoreapp2.0\Servicios.csproj.CoreCompileInputs.cache
+C:\devrepos\udpublications\Servicios\obj\Debug\netcoreapp2.0\Servicios.AssemblyInfoInputs.cache
+C:\devrepos\udpublications\Servicios\obj\Debug\netcoreapp2.0\Servicios.AssemblyInfo.cs
+C:\devrepos\udpublications\Servicios\bin\Debug\netcoreapp2.0\Servicios.deps.json
+C:\devrepos\udpublications\Servicios\bin\Debug\netcoreapp2.0\Servicios.dll
+C:\devrepos\udpublications\Servicios\bin\Debug\netcoreapp2.0\Servicios.pdb
+C:\devrepos\udpublications\Servicios\bin\Debug\netcoreapp2.0\Modelo.dll
+C:\devrepos\udpublications\Servicios\bin\Debug\netcoreapp2.0\Repositorio.dll
+C:\devrepos\udpublications\Servicios\bin\Debug\netcoreapp2.0\Microsoft.AspNetCore.Http.Features.dll
+C:\devrepos\udpublications\Servicios\bin\Debug\netcoreapp2.0\Modelo.pdb
+C:\devrepos\udpublications\Servicios\bin\Debug\netcoreapp2.0\Repositorio.pdb
+C:\devrepos\udpublications\Servicios\bin\Debug\netcoreapp2.0\Microsoft.AspNetCore.Http.Features.xml
+C:\devrepos\udpublications\Servicios\obj\Debug\netcoreapp2.0\Servicios.dll
+C:\devrepos\udpublications\Servicios\obj\Debug\netcoreapp2.0\Servicios.pdb

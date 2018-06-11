@@ -14,11 +14,13 @@ namespace udpublications
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
+        public IHostingEnvironment Environment { get; }
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -54,9 +56,7 @@ namespace udpublications
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-              
-
+            
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMvc(routes =>

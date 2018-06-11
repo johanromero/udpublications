@@ -67,5 +67,7 @@ namespace Modelo.Models
         public ICollection<Evaluacion> Evaluacion { get; set; }
         [NotMapped]
         public IFormFile files { get; set; }
+
+        public int preregEditCount { get; set; }
     }
 }

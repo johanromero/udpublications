@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Modelo.Models;
 using Repositorio;
+using Servicios;
 
 namespace udpublications.Controllers
 {
@@ -26,12 +27,11 @@ namespace udpublications.Controllers
         // GET: Preregistros
         public async Task<IActionResult> Index()
         {
-            var uDPUBLISHContext = _context.Preregistros.Include(p => p.Estpr).Include(p => p.Tipopr);
-            return View(await uDPUBLISHContext.ToListAsync());
+            return View(await PreregistroService.ObtenerListadoPreregistros(_context));
         }
 
         // GET: Preregistros/Details/5
-        [Authorize(Roles = "ADMINISTRADOR,EVALUADOR")]
+        [Authorize(Roles = "EVALUADOR,COMITÉ")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -39,26 +39,40 @@ namespace udpublications.Controllers
                 return NotFound();
             }
 
-            var preregistro = await _context.Preregistros
-                .Include(p => p.Estpr)
-                .Include(p => p.Tipopr)
-                .Include(p => p.Evaluacion)
-                .ThenInclude(eval => eval.Usr)
-                .SingleOrDefaultAsync(m => m.PreregId == id);
+            //var preregistro = await _context.Preregistros
+            //    .Include(p => p.Estpr)
+            //    .Include(p => p.Tipopr)
+            //    .Include(p => p.Evaluacion)
+            //    .ThenInclude(eval => eval.Usr)
+            //    .SingleOrDefaultAsync(m => m.PreregId == id);
+            var preregistro = await PreregistroService.ObtenerPreregistroXId(_context, id.Value);
             if (preregistro == null)
             {
                 return NotFound();
             }
+
             var evaluacion = new Evaluacion();
             evaluacion.PreregId = preregistro.PreregId;
-
-            var estadosXRol = _context.EstadoPrereg.Where(p => (p.EstprId == 2 || p.EstprId == 3 || p.EstprId == 4));
-
-            ViewData["EstprId"] = new SelectList(estadosXRol, "EstprId", "EstprNombre", preregistro.EstprId);
-
+            LLenarDiccionarioUIXRol(preregistro);
 
             return View(new PreregistrosViewModel { preregistros = preregistro,
-                                                    evaluacion = evaluacion });
+                evaluacion = evaluacion });
+        }
+
+        public void LLenarDiccionarioUIXRol(Preregistros preregistro )
+        {
+            IQueryable<EstadoPrereg> estadosXRol;
+
+            if (User.IsInRole("EVALUADOR"))
+            {
+                estadosXRol = _context.EstadoPrereg.Where(p => (p.EstprId == 2 || p.EstprId == 3 || p.EstprId == 4));
+            }
+            else
+            {
+                estadosXRol = _context.EstadoPrereg.Where(p => (p.EstprId == 5));
+            }
+            ViewData["EstprId"] = new SelectList(estadosXRol, "EstprId", "EstprNombre", preregistro.EstprId);
+
         }
 
         [HttpPost]
@@ -89,13 +103,11 @@ namespace udpublications.Controllers
         }
 
             // GET: Preregistros/Create
-            public IActionResult Create([FromQuery(Name = "TipoPreRegistro")] string tipoPreregistro)
+
+        public IActionResult Create([FromQuery(Name = "TipoPreRegistro")] string tipoPreregistro)
         {           
-            ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre");
-            var qTipoP = _context.TipoPreregistro;
-            var tiposPRERList = new SelectList(qTipoP, "TipoprId", "TipoprNombre");
-            ViewData["TipoprId"] = tiposPRERList;
-            var _Tipopr = qTipoP.Where(x => x.TipoprId == Int32.Parse(tipoPreregistro)).First();
+            var _Tipopr = _context.TipoPreregistro.Where(x => x.TipoprId == Int32.Parse(tipoPreregistro)).First();
+
             var preRegistro = new Preregistros
             {
                 PreregFechaCreacion = DateTime.Now,
@@ -105,7 +117,7 @@ namespace udpublications.Controllers
                 EstprId = 1
             };
 
-
+            LlenarDiccionarioUI(preRegistro);
             return View(preRegistro);
         }
 
@@ -114,65 +126,52 @@ namespace udpublications.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm]  Preregistros pregistro, IFormFile formFile)
+        public async Task<IActionResult> Create([FromForm]  Preregistros preregistro, IFormFile formFile)
         {
-            if (formFile == null && pregistro.TipoprId == 2)
+            if (formFile == null && preregistro.TipoprId == 2)
             {
                 ModelState.AddModelError("PreregAdjunto", "Por favor adjunte la hoja de vida");
-                ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre", pregistro.EstprId);
-                ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre", pregistro.TipoprId);
-
-                return View(pregistro);
+                return View(preregistro);
             }
 
-            if ((pregistro.PreregAreaProfesional == null) && pregistro.TipoprId == 2)
+            if ((preregistro.PreregAreaProfesional == null) && preregistro.TipoprId == 2)
             {
                 ModelState.AddModelError("PreregAreaProfesional", "Área profesional es un campo obligatorio");
-                ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre", pregistro.EstprId);
-                ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre", pregistro.TipoprId);
-
-                return View(pregistro);
+                LlenarDiccionarioUI(preregistro);
+                return View(preregistro);
             }
-            if ((pregistro.PreregTematica == null) && pregistro.TipoprId == 2)
+            if ((preregistro.PreregTematica == null) && preregistro.TipoprId == 2)
             {
                 ModelState.AddModelError("PreregTematica", "Temática es un campo obligatorio");
-                ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre", pregistro.EstprId);
-                ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre", pregistro.TipoprId);
-
-                return View(pregistro);
+                LlenarDiccionarioUI(preregistro);
+                return View(preregistro);
             }
            
-            if (pregistro.TipoprId == 2)
+            if (preregistro.TipoprId == 2)
             {
                 using (var memoryStream = new MemoryStream())
                 {
                     await formFile.CopyToAsync(memoryStream);
-
-                    pregistro.PreregAdjunto = memoryStream.ToArray();
-             
+                    preregistro.PreregAdjunto = memoryStream.ToArray();
                 }
-
-
             }
 
-            pregistro.PreregFechaCreacion = DateTime.Now;
-            pregistro.PreregFechaModificacion = DateTime.Now;
-            pregistro.EstprId = 1;
+            preregistro.PreregFechaCreacion = DateTime.Now;
+            preregistro.PreregFechaModificacion = DateTime.Now;
+            preregistro.EstprId = 1;
 
-            //if (ModelState.IsValid)
-            //{
-                _context.Add(pregistro);
+            _context.Add(preregistro);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-            //} else {
-            //   var errors =  ModelState.Values.Where(x => x.Errors.Count >= 1);
+     
+        }
 
-            //}
-            //ViewData["CvId"] = new SelectList(_context.Cv, "CvId", "CvId", viewModel.PReg.CvId);
-            //ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre", pregistro.EstprId);
-            //ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre", pregistro.TipoprId);
+        private void LlenarDiccionarioUI(Preregistros preregistro)
+        {
 
-            //return View(pregistro);
+                ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre", preregistro.EstprId);
+                ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre", preregistro.TipoprId);
+
         }
 
         // GET: Preregistros/Edit/5
@@ -205,6 +204,7 @@ namespace udpublications.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+ 
         public async Task<IActionResult> Edit(int id, [FromForm] Preregistros preregistro, IFormFile formFile)
         {
             if (id != preregistro.PreregId)
@@ -268,49 +268,48 @@ namespace udpublications.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EstprId"] = new SelectList(_context.EstadoPrereg, "EstprId", "EstprNombre", preregistro.EstprId);
-            ViewData["TipoprId"] = new SelectList(_context.TipoPreregistro, "TipoprId", "TipoprNombre", preregistro.TipoprId);
+            LlenarDiccionarioUI(preregistro);
             return View(preregistro);
         }
 
         // GET: Preregistros/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var preregistros = await _context.Preregistros
-                .Include(p => p.Estpr)
-                .Include(p => p.Tipopr)
-                .SingleOrDefaultAsync(m => m.PreregId == id);
-            if (preregistros == null)
-            {
-                return NotFound();
-            }
+        //    var preregistros = await _context.Preregistros
+        //        .Include(p => p.Estpr)
+        //        .Include(p => p.Tipopr)
+        //        .SingleOrDefaultAsync(m => m.PreregId == id);
+        //    if (preregistros == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(preregistros);
-        }
+        //    return View(preregistros);
+        //}
 
         // POST: Preregistros/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var preregistros = await _context.Preregistros.SingleOrDefaultAsync(m => m.PreregId == id);
-            _context.Preregistros.Remove(preregistros);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var preregistros = await _context.Preregistros.SingleOrDefaultAsync(m => m.PreregId == id);
+        //    _context.Preregistros.Remove(preregistros);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool PreregistrosExists(int id)
         {
             return _context.Preregistros.Any(e => e.PreregId == id);
         }
- 
 
-       
+
+
         public async Task <IActionResult> DownloadCV(int id)
         {
             var preregistro = await _context.Preregistros.SingleOrDefaultAsync(m => m.PreregId == id);

@@ -8,14 +8,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Modelo.Models;
 using Repositorio;
+using Servicios;
 
 namespace udpublications.Controllers
 {
     public class UsuariosController : Controller
     {
         private readonly UDPUBLISHContext _context;
-
-       public UsuariosController(UDPUBLISHContext context)
+        public UsuariosController(UDPUBLISHContext context)
         {
             _context = context;
         }
@@ -24,8 +24,8 @@ namespace udpublications.Controllers
         [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Index()
         {
-            var qUsuario =  _context.Usuario.Include(u => u.Rol);
-            return  View(await qUsuario.ToListAsync());
+            var usuariosList = await UsuarioService.ObtenerListaUsuario(_context);
+            return  View( usuariosList);
         }
 
         // GET: Usuarios/Details/5
@@ -97,13 +97,13 @@ namespace udpublications.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "ADMINISTRADOR")]
+        [Authorize(Roles = "ADMINISTRADOR, COMITÉ")]
         public async Task<IActionResult> Edit(int id, [Bind("UsrId,UsrNombre,UsrPassword,UsrActivo,RolId")] Usuario usuario)
         {
-            if (id != usuario.UsrId)
-            {
-                return NotFound();
-            }
+            //if (id != usuario.UsrId)
+            //{
+            //    return NotFound();
+            //}
 
             if (ModelState.IsValid)
             {
@@ -129,35 +129,35 @@ namespace udpublications.Controllers
             return View(usuario);
         }
 
-        // GET: Usuarios/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //// GET: Usuarios/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var usuario = await _context.Usuario
-                .Include(u => u.Rol)
-                .SingleOrDefaultAsync(m => m.UsrId == id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
+        //    var usuario = await _context.Usuario
+        //        .Include(u => u.Rol)
+        //        .SingleOrDefaultAsync(m => m.UsrId == id);
+        //    if (usuario == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(usuario);
-        }
+        //    return View(usuario);
+        //}
 
-        // POST: Usuarios/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var usuario = await _context.Usuario.SingleOrDefaultAsync(m => m.UsrId == id);
-            _context.Usuario.Remove(usuario);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //// POST: Usuarios/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var usuario = await _context.Usuario.SingleOrDefaultAsync(m => m.UsrId == id);
+        //    _context.Usuario.Remove(usuario);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool UsuarioExists(int id)
         {
